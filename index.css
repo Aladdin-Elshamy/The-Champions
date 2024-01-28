@@ -1,0 +1,119 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #111827;
+}
+/* Header */
+img{
+    max-width: 130px;
+}
+header{
+    margin-top: 30px;
+}
+header h1{
+    color: #fff;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: clamp(1.5rem, 1vw + 1rem, 2rem);
+}
+.container{
+    text-align: center;
+    padding-inline: 15px;
+    width: 80%;
+    margin-inline: auto;
+}
+@media (min-width:768px){
+    .container{
+        width: 60%;
+    }
+}
+/* Header */
+/* Main */
+.container-grid{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(4,1fr);
+    gap: 10px;
+}
+.container-grid > *{
+    padding: 8px 15px;
+    background-color: #444059;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+}
+#message{
+    grid-area: 1 / 1 / span 3 / span 2;
+}
+#message ,#sender, #reciever{
+    
+    border: none;
+    overflow: auto;
+    outline: none;
+    font-size: clamp(0.75rem, 3vw - 1rem, 1rem);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
+}
+
+#sender, #reciever{
+    text-align: center;
+}
+.nested-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.nested-container button{
+    background-color: #28A9F1;
+    color: #04131C;
+    border: none;
+    padding: 8px 15px;
+    font-size: clamp(1.25rem, 1vw + 1rem, 1.875rem);
+    cursor: pointer;
+    transition: 0.3s linear;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 700;
+}
+.nested-container button:hover{
+    color:#fff;
+    box-shadow: 0px 0px 3px 1px #fff;
+}
+.nested-container button:active{
+    transform: scale(0.95);
+}
+.container-grid > *, .nested-container button{
+    border-radius: 5px;
+}
+.endorsements h2{
+    color: #fff;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: clamp(1.125rem, 5vw - 1.5rem, 1.5rem);;
+}
+.endorsements{
+    font-family: 'Inter', sans-serif;
+}
+.endorsement{
+    background-color: #fff;
+    text-align: left;
+    padding: 1px 10px;
+    margin-block: 10px;
+}
+i{
+    opacity: 0.5;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: clamp(0.875rem, 3vw - 1rem, 1.25rem);
+}
+i:hover{
+    opacity: 1;
+}
+.endorsement p{
+    padding-left: 10px;
+    font-size: clamp(0.75rem, 3vw - 1rem, 1rem);
+}
+.endorsement h3,span{
+    font-size: clamp(0.75rem, 5vw - 1.5rem, 1.125rem);
+}
