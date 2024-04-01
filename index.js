@@ -87,7 +87,7 @@ function appendItemToEndorsementsContainer(item){
   const endorsement = document.createElement("section");
   endorsement.className = "endorsement";
   const h3 = document.createElement("h3");
-  h3.textContent = "To " + itemValue.sender;
+  h3.textContent = "From " + itemValue.sender;
   const paragraph = document.createElement("p");
   paragraph.textContent = itemValue.messageContent;
   const div = document.createElement("div");
@@ -132,7 +132,7 @@ function appendItemToEndorsementsContainer(item){
   heartsDiv.append(heartsNum);
   div.append(heartsDiv)
   div.style.cssText="display:flex;justify-content:space-between;align-items:center;margin-top:-1em"
-  secondH3.textContent = "From " + itemValue.receiver;
+  secondH3.textContent = "To " + itemValue.receiver;
   endorsement.append(h3);
   endorsement.append(paragraph);
   endorsement.append(div);
