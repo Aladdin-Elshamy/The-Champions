@@ -3,8 +3,8 @@
     "short_name": "We are the Champions",
     "icons": [
         {
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
+            "src": "/favicon-32x32.png",
+            "sizes": "32x32",
             "type": "image/png"
         },
         {
