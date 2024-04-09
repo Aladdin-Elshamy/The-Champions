@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+import { getDatabase, ref, push,runTransaction, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,13 +23,50 @@ const submitButton = document.getElementById("submit");
 const endorsementsContainer = document.querySelector(".endorsements-container");
 const errorMessage = document.createElement("p");
 const notExistMessage = document.createElement("p");
+
 let message = {
   sender: senderField.value,
   receiver: receiverField.value,
   messageContent: messageField.value,
   heartsNum: 0,
-  isLiked: false
+  usersID: ['0']
 }
+
+// Function to generate a unique device identifier (GUID)
+function generateGUID() {
+  // Function to generate a random hex string
+  function randomHex(len) {
+    const chars = '0123456789abcdef';
+    let result = '';
+    for (let i = 0; i < len; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  return (
+    randomHex(8) +
+    '-' +
+    randomHex(4) +
+    '-' +
+    randomHex(4) +
+    '-' +
+    randomHex(4) +
+    '-' +
+    randomHex(12)
+  );
+}
+
+// Function to get or generate a unique device identifier
+function getDeviceId() {
+  let deviceId = localStorage.getItem('deviceId');
+  if (!deviceId) {
+    deviceId = generateGUID();
+    localStorage.setItem('deviceId', deviceId);
+  }
+  return deviceId;
+}
+let deviceId = getDeviceId();
 
 errorMessage.style.cssText = "color:red;font-family:'Inter', sans-serif;font-weight:700;font-size:10px;margin-bottom:-5px;margin-top:2px"
 
@@ -57,7 +94,7 @@ submitButton.addEventListener("click",function() {
     }
     else{
       errorMessage.remove()
-      message = {sender: senderField.value, receiver: receiverField.value, messageContent: messageField.value, heartsNum:0, isLiked: false};
+      message = {sender: senderField.value, receiver: receiverField.value, messageContent: messageField.value, heartsNum:0, usersID: ["0"]};
       push(messagesListInDB,message)
       senderField.value = "";
       receiverField.value = "";
@@ -107,25 +144,25 @@ function appendItemToEndorsementsContainer(item){
   heartsDiv.firstChild.addEventListener("click",function(){
     let exactLocationOfItemInDB = ref(database, `messagesList/${itemID}`);
     let newNumberOfHearts = itemValue.heartsNum;
-
-    if(!itemValue.isLiked){
-      newNumberOfHearts++
+    if(!itemValue.usersID.includes(deviceId)){
+      newNumberOfHearts++;
       set(exactLocationOfItemInDB,{
         sender: itemValue.sender,
         receiver: itemValue.receiver,
         messageContent: itemValue.messageContent,
         heartsNum: newNumberOfHearts,
-        isLiked: true
+        isLiked: true,
+        usersID: [...itemValue.usersID, deviceId]
       })
     }
     else{
-      newNumberOfHearts--
+      newNumberOfHearts--;
       set(exactLocationOfItemInDB,{
         sender: itemValue.sender,
         receiver: itemValue.receiver,
         messageContent: itemValue.messageContent,
         heartsNum: newNumberOfHearts,
-        isLiked: false
+        usersID: itemValue.usersID.filter(id => id !== deviceId)
       })
     }
     if(itemValue.heartsNum>999){
@@ -136,6 +173,7 @@ function appendItemToEndorsementsContainer(item){
     }
     
   })
+
   heartsDiv.style.cssText="margin-top:2px;display:flex;gap:5px;align-items:center"
   heartsDiv.append(heartsNum);
   div.append(heartsDiv)
