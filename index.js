@@ -23,12 +23,12 @@ const submitButton = document.getElementById("submit");
 const endorsementsContainer = document.querySelector(".endorsements-container");
 const errorMessage = document.createElement("p");
 const notExistMessage = document.createElement("p");
-let numberOfClicks = 0;
 let message = {
   sender: senderField.value,
   receiver: receiverField.value,
   messageContent: messageField.value,
-  heartsNum: 0
+  heartsNum: 0,
+  isLiked: false
 }
 
 errorMessage.style.cssText = "color:red;font-family:'Inter', sans-serif;font-weight:700;font-size:10px;margin-bottom:-5px;margin-top:2px"
@@ -57,9 +57,11 @@ submitButton.addEventListener("click",function() {
     }
     else{
       errorMessage.remove()
-      message = {sender: senderField.value, receiver: receiverField.value, messageContent: messageField.value, heartsNum:0};
+      message = {sender: senderField.value, receiver: receiverField.value, messageContent: messageField.value, heartsNum:0, isLiked: false};
       push(messagesListInDB,message)
-      numberOfClicks = 0;
+      senderField.value = "";
+      receiverField.value = "";
+      messageField.value = "";
     }
   }
 })
@@ -106,20 +108,26 @@ function appendItemToEndorsementsContainer(item){
     let exactLocationOfItemInDB = ref(database, `messagesList/${itemID}`);
     let newNumberOfHearts = itemValue.heartsNum;
 
-    if(numberOfClicks === 0){
-      newNumberOfHearts++;
-      numberOfClicks = 1;
+    if(!itemValue.isLiked){
+      newNumberOfHearts++
+      set(exactLocationOfItemInDB,{
+        sender: itemValue.sender,
+        receiver: itemValue.receiver,
+        messageContent: itemValue.messageContent,
+        heartsNum: newNumberOfHearts,
+        isLiked: true
+      })
     }
     else{
-      numberOfClicks = 0;
-      newNumberOfHearts--;
+      newNumberOfHearts--
+      set(exactLocationOfItemInDB,{
+        sender: itemValue.sender,
+        receiver: itemValue.receiver,
+        messageContent: itemValue.messageContent,
+        heartsNum: newNumberOfHearts,
+        isLiked: false
+      })
     }
-    set(exactLocationOfItemInDB,{
-      sender: itemValue.sender,
-      receiver: itemValue.receiver,
-      messageContent: itemValue.messageContent,
-      heartsNum: newNumberOfHearts
-    })
     if(itemValue.heartsNum>999){
       heartsNum.textContent = "+999"
     }
