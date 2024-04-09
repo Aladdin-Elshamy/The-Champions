@@ -5,10 +5,10 @@
 "The Champions Website" is a web-based platform designed to showcase and celebrate the achievements and stories of champions from various fields. This website serves as a tribute to individuals who have made significant contributions and the writer.
 
 ## Table of Contents
-2. [Key Features](#key-features)
-3. [Technology](#technology)
-4. [Usage](#usage)
-6. [Contact](#contact)
+1. [Key Features](#key-features)
+2. [Technology](#technology)
+3. [Usage](#usage)
+4. [Contact](#contact)
 
 ## Key Features
 - Inspiring biographies and stories of remarkable individuals
