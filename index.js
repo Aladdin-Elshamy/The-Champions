@@ -151,7 +151,6 @@ function appendItemToEndorsementsContainer(item){
         receiver: itemValue.receiver,
         messageContent: itemValue.messageContent,
         heartsNum: newNumberOfHearts,
-        isLiked: true,
         usersID: [...itemValue.usersID, deviceId]
       })
     }
